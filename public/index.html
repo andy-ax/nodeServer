@@ -6,5 +6,25 @@
 </head>
 <body>
 <p>已连接</p>
+<script>
+    function loopReadsData(url, callback) {//comet HTTP流
+        var xhr = new XMLHttpRequest();
+        var received = 0;
+        xhr.open('GET',url,true);
+        xhr.onreadystatechange = function () {
+            var result;
+            if(xhr.readyState === 3){
+                result = xhr.responseText.substring(received);
+                received += result.length;
+                callback(result);
+                if(result.length > 5){
+                    result = '';
+                    received = 0;
+                }
+            }
+        };
+        xhr.send(null);
+    }
+</script>
 </body>
 </html>
