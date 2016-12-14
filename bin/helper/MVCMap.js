@@ -11,3 +11,7 @@ var routes = [];
 var use = function (path, action) {
     routes.push([path,action]);
 };
+
+var pathSet = function(req,res) {
+
+};
