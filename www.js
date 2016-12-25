@@ -6,17 +6,18 @@ var parse = require('./bin/helper/parse').parse;
 var cookie = require('./bin/helper/cookie');
 
 //TODO 缓存 数据库存储
-//TODO 文件读取传输
-//TODO stream buffer pipe
+//TODO buffer stream pipe fs
 //路由解析 网络映射
 //TODO 浏览器缓存
-//TODO cookie session
+//cookie session
 //TODO 异步编程
 //TODO 网络编程(tcp http udp ws)
 //TODO 服务端骨架
 //TODO 加密解密
 //TODO 高效增删改查(算法与数组处理)
 //TODO 网络安全(XSS，SQL注入)
+//TODO 网络爬虫
+//TODO jade模版 模版引擎
 
 var cache = {};
 var process = 23000;
