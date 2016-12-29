@@ -16,7 +16,7 @@ var init1 = function () {
     var readStream = fs.createReadStream(sourcePath);
     var writeStream = fs.createWriteStream(writePath);
 
-    readStream.on('data', function(chunk) { // 当有数据流出时，写入数据
+    readStream.on('data', function(chunk) { // 当有数据流出时，写入数据 每68kb触发一次
         if (writeStream.write(chunk) === false) { // 如果没有写完，暂停读取流
             readStream.pause();
         }
@@ -31,7 +31,7 @@ var init1 = function () {
     });
 
     //pipe自动调用了data,end等事件
-    fs.createReadStream(sourcePath).pipe(fs.createWriteStream(writePath));
+    // fs.createReadStream(sourcePath).pipe(fs.createWriteStream(writePath));
 };
 
 var init2 = function () {
@@ -79,3 +79,96 @@ var init2 = function () {
     },500);
 };
 
+var init3 = function () {
+    var readFileMsg = function (filePath, resolve, reject) {
+        fs.stat(filePath, function (err, stat) {
+            if (err) {
+                if (reject) {
+                    reject(err);
+                } else {
+                    throw new Error('file load failed!!!');
+                }
+            } else {
+                resolve && resolve(stat);
+            }
+        })
+    };
+
+    var path = '/Users/andy/WebstormProjects/nodeServer/public/text/saveDoc.txt';
+    // readFileMsg(path, function (msg) {
+    //     var wS = fs.createWriteStream(path,{flags: 'w',
+    //         defaultEncoding: 'utf8',
+    //         fd: null,
+    //         autoClose: true,
+    //         start:0
+    //     });
+    //     var str = '第3次写入 ';
+    //     var buf = new Buffer(str, 'utf-8');
+    //     wS.write(buf, 'UTF-8', function () {
+    //         console.log('end');
+    //         wS.end();
+    //     }, false);
+    //     wS.on('finish', function () {
+    //         console.log('finish');
+    //     });
+    //     wS.on('error', function (err) {
+    //         console.log(err.stack);
+    //     })
+    // });
+
+    function addToFile(path, config, resolve, reject) {
+        if (!config.text) throw new Error('no text write!!!');
+
+        var fileText;
+        var buffers = [];
+        var encode = config.encode || 'utf-8';
+
+        fs.createReadStream(path)
+            .on('data', function (buf) {
+                buffers.push(buf);
+            })
+            .on('end', function () {
+                var fileBuf = new Buffer(config.text);
+                fileText = insertBuffer(
+                    addAllBuffer(buffers),
+                    fileBuf,
+                    config.start || 0
+                );
+                var wS = fs.createWriteStream(path);
+                wS.write(fileText, encode, function () {
+                    wS.end();
+                });
+                wS.on('finish', function () {
+                    resolve && resolve();
+                });
+                wS.on('error', function (err) {
+                    reject && reject(err);
+                })
+            })
+    }
+    function insertBuffer(buf0, buf1, start) {
+        var len = buf0.length;
+        var allBuf = new Buffer(len + buf1.length);
+        buf0.copy(allBuf,0,0,start);//copy(粘贴目标Buffer,从粘贴目标Buffer的第n位开始,从复制目标的第n位开始,到复制目标的第n位结束)复制字符 n从0开始索引
+        buf1.copy(allBuf,start,0);
+        buf0.copy(allBuf,start+buf1.length,start);
+        return allBuf;
+    }
+    function addAllBuffer(bufArr) {
+        var len = 0;
+        var copyLen = [];
+        bufArr.forEach(function (buf) {
+            copyLen.push(len);
+            len += buf.length;
+        });
+        var allBuf = new Buffer(len);
+        bufArr.forEach(function (buf,i) {
+            buf.copy(allBuf,copyLen[i],0);
+        });
+        return allBuf;
+    }
+    addToFile(path, {text:' andy ',start:3},function () {
+        fs.unlink(path);
+    });
+};
+init3();

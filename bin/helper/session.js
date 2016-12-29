@@ -5,7 +5,7 @@ var EXPIRES = 20 * 60 * 1000;
 
 //设定超时时间
 var configExpires = function (expires) {
-    if (isNumber(expires)) {
+    if (typeof expires === 'number') {
         EXPIRES = expires;
     } else {
         throw new Error('expires must be number!!!');

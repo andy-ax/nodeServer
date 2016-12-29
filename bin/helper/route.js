@@ -20,12 +20,28 @@ var use = function (path, type, action) {
     if (path.indexOf(':username') > -1) {
         path = path.replace(/\:username/g,'([0-9a-zA-Z_]+)');
     }
+    if (path.indexOf(':room') > -1) {
+        path = path.replace(/\:room/g,'room(\\\d+)')
+    }
     exp = new RegExp('^' + path + '$');
 
     routes[type].push({
         path: exp,
         action: action
     });
+};
+
+exports.post = function (path, action) {
+    use(path, 'post', action);
+};
+exports.delete = function (path, action) {
+    use(path, 'delete', action);
+};
+exports.put = function (path, action) {
+    use(path, 'put', action);
+};
+exports.get = function (path, action) {
+    use(path, 'get', action);
 };
 
 /**
