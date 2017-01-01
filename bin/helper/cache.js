@@ -28,18 +28,21 @@ var configExpires = function (expires) {
  * @param {ServerResponse} res
  * @param {function} resolve
  * @param {function} reject
+ * @param {function} notFound
  */
-var checkModified = function (path, req, res, resolve, reject) {
+var checkModified = function (path, req, res, resolve, reject, notFound) {
     file.readFileMsg(path,function (stat) {
         var lastModified = stat.mtime.toUTCString();
         if (lastModified === req.headers['if-modified-since']) {
-            resolve && resolve();
+            resolve();
         } else {
             file.readFile(path,
                 function (str) {
                     //noinspection JSUnresolvedFunction
                     res.setHeader("Last-Modified", lastModified);
                     reject(str);
+                },function (err) {
+                    notFound(err);
                 }
             );
         }

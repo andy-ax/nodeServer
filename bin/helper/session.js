@@ -29,13 +29,19 @@ var generateSession = function () {
 };
 
 //检查session
+/**
+ *
+ * @param {string} s_id
+ * @param {function} [resolve]
+ * @param {function} [reject]
+ */
 var checkSession = function (s_id, resolve, reject) {
     var session = sessions[s_id];
     if (session) {
         var date = (new Date()).getTime();
         if (session.cookie.expire > date) {
             session.cookie.expire = date + EXPIRES;
-            resolve && resolve();
+            resolve && resolve(session);
         } else {
             delete sessions[s_id];
             reject && reject();

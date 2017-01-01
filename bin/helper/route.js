@@ -4,6 +4,7 @@ var routes = {
     PUT: [],
     DELETE: []
 };
+var rule = [];
 //映射方法
 //:username关键字匹配用户名
 /**
@@ -17,12 +18,11 @@ var use = function (path, type, action) {
     var type = type.toUpperCase();
     var exp;
 
-    if (path.indexOf(':username') > -1) {
-        path = path.replace(/\:username/g,'([0-9a-zA-Z_]+)');
-    }
-    if (path.indexOf(':room') > -1) {
-        path = path.replace(/\:room/g,'room(\\\d+)')
-    }
+    rule.forEach(function (ruleObj) {
+        if (path.indexOf(ruleObj.execStr) > -1) {
+            path = path.replace(ruleObj.regExp,ruleObj.replaceRegExp);
+        }
+    });
     exp = new RegExp('^' + path + '$');
 
     routes[type].push({
@@ -46,11 +46,25 @@ exports.get = function (path, action) {
 
 /**
  *
+ * @param {string} execStr
+ * @param {RegExp} regExp
+ * @param {string} replaceRegExp
+ */
+var addRule = function (execStr, regExp, replaceRegExp) {
+    rule.push({
+        execStr: execStr,
+        regExp: regExp,
+        replaceRegExp: replaceRegExp
+    });
+};
+
+/**
+ *
  * @param req
  * @param {string} pathname
  * @return {{action: *, args: (*)} || boolean}
  */
-var pathSet = function(req, pathname) {
+var checkPath = function(req, pathname) {
     var route,
         i,
         len,
@@ -65,7 +79,7 @@ var pathSet = function(req, pathname) {
             route.path.lastIndex = 0;
             result.shift();
             //将req,res与匹配项叠加
-            args = Array.prototype.slice.call(arguments,0).concat(result);
+            args = [].concat(result);
 
             return {
                 action: route.action,
@@ -76,5 +90,6 @@ var pathSet = function(req, pathname) {
     return false;
 };
 
-exports.pathSet = pathSet;
+exports.addRule = addRule;
+exports.checkPath = checkPath;
 exports.use = use;

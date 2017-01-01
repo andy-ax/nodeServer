@@ -4,10 +4,7 @@ var http = require("http");
 var handle404 = require('./bin/helper/handel404').handle404;
 var routeMod = require('./bin/helper/route');
 var parseMod = require('./bin/helper/parse').parse;
-var cookieMod = require('./bin/helper/cookie');
-var sessionMod = require('./bin/helper/session');
-var fileMod = require('./bin/helper/file');
-var cacheMod = require('./bin/helper/cache');
+var cookieMod = require('./bin/helper/cookie').Cookie;
 
 //TODO 数据库 mongodb redis
 //buffer stream pipe fs
@@ -25,23 +22,23 @@ var cacheMod = require('./bin/helper/cache');
 //TODO jade模版 模版引擎
 //TODO 错误处理与调试 domain 格式化输出 writeLine
 
-var cache = {};
 var process = 23000;
 var onRequest = function(request, response) {
-    if (request.url === '/') {
+    //将解析后的路径 挂载 到 req.urlObj 上
+    var urlObj = request.urlObj = parseMod(request.url);
+    //路由解析
+    var result = routeMod.checkPath(request, urlObj.pathname);
 
+    if (result) {
+        //cookie解析并 挂载 到 req.cookie 上
+        request.cookie = cookieMod.parseCookie(request.headers.cookie);
+
+        //执行
+        var arg = [request,response].concat(result.args);
+        result.action.apply(this, arg);
     } else {
-        //路径解析
-        var urlObj = parseMod(request.url);
-        //路由映射
-        var result = routeMod.pathSet(request, urlObj.pathname);
-        var cookies = cookieMod.parseCookie(request.headers.cookie);
-        if (result) {
-            result.action.apply(this, result.args);
-        } else {
-            //处理404请求
-            handle404(response);
-        }
+        //处理404请求
+        handle404(response);
     }
 };
 var onConnect = function () {
@@ -49,36 +46,31 @@ var onConnect = function () {
 };
 
 function init () {
-    //监听端口
+    //listen process
     http.createServer(onRequest).listen(process, onConnect);
-    //路由映射
-    routeMod.get('/user/:username', function (req, res, name) {
 
-    });
-    routeMod.delete('/user/:username', function (req, res, name) {
+    //cookie & session config
+    var CSConfig = require('./cookie&session_config');
+    CSConfig.config();
 
-    });
-    routeMod.post('/user/:username', function (req, res, name) {
+    //cache config
+    var cacheStorage = require('./cache&storage');
+    cacheStorage.cacheConfig();
 
-    });
-    routeMod.get('/hall/:room', function (req, res, name) {
-
-    });
-    routeMod.delete('/hall/:room', function (req, res, name) {
-
-    });
-
-    //cookie配置
-    cookieMod.setOption({
-        maxAge: 60 * 60 * 24 * 30,
-        domain: '127.0.0.1',
-        path: '/',
-        httpOnly: true
-    });
-    //session cache 超时设置
-    sessionMod.configExpires(20 * 60 * 1000);
-    cacheMod.configExpires(10 * 365 * 24 * 60 * 60 * 1000);
-
+    //route map & follow-up actions
+    var routeMap = require('./routeMap').routeMap;
+    routeMap();
 }
 
 init();
+
+//server test
+var test = function () {
+    var fileMod = require('./bin/helper/file');
+    fileMod.readFile('./public/images/dog.png',function (file) {
+
+    },function (err) {
+        console.log(err);
+    });
+};
+// test();

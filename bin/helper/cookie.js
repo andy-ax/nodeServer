@@ -1,38 +1,101 @@
-var querystring = require('querystring');
+var queryString = require('querystring');
 
 var option;
-//这里先用缓存存储，后面学到数据库和filesystem再改变
+//cookie配置
 var cookies = {};
 
-//option设置 cookie 获取 检验 存储 发送
-var setOption = function (opt) {
+//cookie实例
+//所有要处理的数据都会挂载在Cookie实例上
+/**
+ *
+ * @param {IncomingMessage} req
+ * @param {ServerResponse} res
+ * @constructor
+ */
+var Cookie = function (req, res) {
+    this.req = req;
+    this.res = res;
+    this.cookie = [];
+};
+
+//设置cookie头
+Cookie.prototype.setCookie = function () {
+    if (this.cookie.length === 1) {
+        this.res.setHeader('Set-Cookie',this.cookie[0]);
+    } else {
+        this.res.setHeader('Set-Cookie',this.cookie);
+    }
+};
+
+/**
+ *
+ * @param {string} key
+ * @param {function} resolve
+ * @param {function} reject
+ */
+//检查cookie
+Cookie.prototype.checkCookie = function (key, resolve, reject) {
+    var result = getCookie(key);
+
+    if (result) {
+        resolve && resolve(this);
+    } else {
+        reject && reject(this)
+    }
+};
+
+//检查全部 cookie
+Cookie.prototype.checkAllCookie = function () {
+    var resolve,reject;
+    for (var i in cookies) {
+        resolve = cookies[i].resolve;
+        reject = cookies[i].reject;
+        this.checkCookie(i,resolve,reject);
+    }
+};
+
+//cookie 辅助函数
+
+//option设置
+Cookie.setOption = function (opt) {
     option = opt;
 };
 
-var parseCookie = function (cookie) {
-    return querystring.parse(cookie, ';', '=');
+//存储已配置的cookie
+/**
+ *
+ * @param {string} key
+ * @param {function} resolve
+ * @param {function} reject
+ */
+Cookie.cookieConfig = function (key, resolve, reject) {
+    cookies[key] = {
+        resolve: resolve,
+        reject: reject
+    };
 };
 
-var checkCookie = function (key, value, match, noMatch, noExist) {
-    var result = getCookie(key, value);
-
-    if (result === value) {
-        match();
-    } else if (result !== value && result !== false) {
-        noMatch();
-    } else {
-        noExist();
-    }
-
+//将cookie切成对象
+/**
+ *
+ * @param {string} cookie
+ * @return {object}
+ */
+Cookie.parseCookie = function (cookie) {
+    return queryString.parse(cookie, ';', '=');
 };
 
-var cookieStorage = function (key, value) {
-    cookies[key] = value;
-};
-
-var buildCookie = function (name, val, opt) {
-    var pairs = [name + '=' + querystring.escape(val)];
-    opt = opt || option;
+//创建cookie
+/**
+ *
+ * @param {string} name
+ * @param  val
+ * @param {object} [opt]
+ * @return {string}
+ */
+Cookie.buildCookie = function (name, val, opt) {
+    var pairs = [name + '=' + queryString.escape(val)];
+    opt ? extend(option, opt) : opt = option;
     try {
         if (opt.maxAge) pairs.push('Max-Age=' + opt.maxAge);
         if (opt.domain) pairs.push('Domain=' + opt.domain);
@@ -46,18 +109,21 @@ var buildCookie = function (name, val, opt) {
     }
 };
 
+//模块内部使用函数
+
 /**
  *
  * @param key
- * @param value
  * @return {boolean}
  */
-function getCookie (key, value) {
-    return cookies[key] ? value : false;
+function getCookie (key) {
+    return !!cookies[key];
 }
-
-exports.setOption = setOption;
-exports.parseCookie = parseCookie;
-exports.checkCookie = checkCookie;
-exports.cookieStorage = cookieStorage;
-exports.buildCookie = buildCookie;
+function extend (source, destination) {
+    destination = arguments[1];
+    for (var property in source) {
+        if (!destination[property]) destination[property] = source[property];
+    }
+    return destination;
+}
+exports.Cookie = Cookie;

@@ -1,0 +1,72 @@
+@import "components";
+#header {
+  .container{
+    @extend %container;
+
+    a,p,span{
+      @extend %font-color
+    }
+
+    a:hover {
+      @extend %font-color-hover
+    }
+
+    .h-l-sidebar{
+      @extend %horizon-list;
+      @extend %float-left;
+      @extend %float-clear;
+
+      h3{
+        @extend %title;
+      }
+    }
+    .h-r-sidebar{
+      @extend %horizon-list;
+      @extend %float-right;
+      @extend %float-clear;
+
+      .text{
+        @extend %text;
+      }
+    }
+  }
+  @extend %header-background;
+}
+
+#main {
+  .container{
+    @extend %container;
+    @extend %horizon-flex-multi-line;
+  }
+  .room, .add-room{
+    @extend %vertical-top;
+    @extend %vertical-list;
+  }
+  .room{
+    @extend %room;
+  }
+  .room:nth-child(4n){
+    @extend %room-last-child;
+  }
+  .add-room{
+    @extend %room;
+    div{
+      @extend %dotLineBox;
+    }
+    p:after{
+      @extend %iconmoon;
+      @extend %iconmoon-add;
+      @extend %roomIcon;
+    }
+  }
+}
+
+#footer{
+  @extend %footer-top;
+  .container{
+    @extend %container;
+  }
+  .about{
+    @extend %footer-text;
+  }
+}
