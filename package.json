@@ -17,6 +17,9 @@
     "socket.io": "latest"
   },
   "devDependencies": {
-    "socket.io": "latest"
+    "formidable": "^1.0.17",
+    "mongodb": "^2.2.19",
+    "socket.io": "latest",
+    "xml2js": "^0.4.17"
   }
 }

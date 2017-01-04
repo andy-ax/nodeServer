@@ -29,11 +29,13 @@ var readFileStream = function (filePath, resolve, reject) {
  * @param {function} [reject]
  */
 var readFile = function (filePath, resolve, reject) {
+    var path = filePath;
     fs.readFile(filePath,function (err, file) {
         if (err) {
             if (reject) {
                 reject(err);
             } else {
+                console.log(path);
                 throw new FileError('file load failed!!!');
             }
         } else {
@@ -59,6 +61,21 @@ var readFileMsg = function (filePath, resolve ,reject) {
         } else {
             resolve && resolve(stat);
         }
+    })
+};
+
+var saveFile = function (file, path, encode, resolve, reject) {
+    encode = encode || 'utf-8';
+
+    var wS = fs.createWriteStream(path);
+    wS.write(file, encode, function () {
+        wS.end();
+    });
+    wS.on('finish', function () {
+        resolve && resolve();
+    });
+    wS.on('error', function (err) {
+        reject && reject(err);
     })
 };
 
@@ -121,5 +138,6 @@ var addToFile = function (path, config, resolve, reject) {
 
 exports.readFile= readFile;
 exports.readFileMsg = readFileMsg;
+exports.saveFile = saveFile;
 exports.copyFile = copyFile;
 exports.addToFile = addToFile;

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./javascripts/jquery.js"></script>
+</head>
+<body>
+<form id="form">
+    用户名<br/><input type="text" name="username" title="username" /><br />
+    密码<br /><input type="text" name="password" title="password" /><br />
+    性别<br/>
+    <label>
+        <input type="radio" name="sex" title="sex" value="male" checked />male
+        <input type="radio" name="sex" title="sex" value="female" />female
+    </label><br/>
+    <input type="submit" id="submit" value="submit" />
+</form>
+<h3 id="JsGetState">数据请求中。。。</h3>
+<ul id="JsList">
+</ul>
+<div class="upload-container">
+    <input type="file" name="fileToUpload" id="fileToUpload" class="fileupload" />
+</div>
+<p id="text"></p>
+</body>
+<script>
+    $(document).ready(function () {
+        $('#submit').on('click', function (e) {
+            e.preventDefault();
+            $.post('./queryString', $(this).parent('form').serialize(), function (data) {
+                $('#text').html(data);
+            });
+        });
+
+        var getState = $('#JsGetState');
+
+        postJson('./json', {get:4,type:'json'} ,function (data) {
+            var listMould1 = '<li><a href="javascript:">';
+            var listMould2 = '</a></li>';
+            var list = '';
+
+            data = JSON.parse(data);
+
+            data.text.forEach(function (text) {
+                list += listMould1 + text + listMould2;
+            });
+            document.getElementById('JsList').innerHTML = list;
+
+            getState.text('请求成功');
+        });
+
+        postXML('./xml',document.implementation.createDocument('','root',null),function (data) {
+
+        });
+
+        function postJson (url, data, callback) {
+            var request = new XMLHttpRequest();
+            request.open('POST',url);
+            request.onreadystatechange = function(){
+                if(request.readyState === 4 && callback) callback(request.responseText);
+            };
+            request.setRequestHeader('Content-Type','application/json');
+            request.send(JSON.stringify(data));
+
+        }
+        function postXML(url, xml, callback) {
+            var request = new XMLHttpRequest();
+            request.open('POST',url);
+            request.onreadystatechange = function(){
+                if(request.readyState === 4 && callback) callback(request.responseText);
+            };
+            request.setRequestHeader('Content-Type','application/xml');
+            request.send(xml);
+        }
+
+        $('.fileupload').change(function(event) {
+            /* Act on the event */
+            if ($('.fileupload').val().length) {
+                var fileName = $('.fileupload').val();
+                var extension = fileName.substring(fileName.lastIndexOf('.'), fileName.length).toLowerCase();
+                if (extension == ".jpg" || extension == ".png") {
+                    var data = new FormData();
+                    data.append('upload', $('#fileToUpload')[0].files[0]);
+                    $.ajax({
+                        url: '/upload',
+                        type: 'POST',
+                        data: data,
+                        cache: false,
+                        contentType: false, //不可缺参数
+                        processData: false, //不可缺参数
+                        success: function(data) {
+                            console.log(data);
+                        },
+                        error: function() {
+                            console.log('error');
+                        }
+                    });
+                }
+            }
+        });
+    });
+</script>
+</html>

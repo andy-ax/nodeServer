@@ -11,6 +11,7 @@ var cookieMod = require('./bin/helper/cookie').Cookie;
 //路由解析 网络映射
 //浏览器缓存
 //cookie session
+//TODO 客户端数据上传(表单，json，xml，其他)
 //TODO 异步编程 异步控制
 //TODO 网络编程(tcp http udp ws)
 //TODO 多进程child_process cluster
@@ -21,6 +22,7 @@ var cookieMod = require('./bin/helper/cookie').Cookie;
 //TODO 网络爬虫
 //TODO jade模版 模版引擎
 //TODO 错误处理与调试 domain 格式化输出 writeLine
+//TODO 数据收集
 
 var process = 23000;
 var onRequest = function(request, response) {
