@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fd189aa8-4129-470d-8034-5e3c06b66de3" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bin/helper/upload.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/cookieTest/cookie.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/cookieTest/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/helper/cookie.js" afterPath="$PROJECT_DIR$/bin/helper/cookie.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cookie&amp;session_config.js" afterPath="$PROJECT_DIR$/cookie&amp;session_config.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/dataUpload/dataUpload.js" afterPath="$PROJECT_DIR$/test/dataUpload/dataUpload.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/dataUpload/index.html" afterPath="$PROJECT_DIR$/test/dataUpload/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www.js" afterPath="$PROJECT_DIR$/www.js" />
     </list>
     <ignored path="nodeServer.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -93,7 +85,7 @@
       <file leaf-file-name="cookie&amp;session_config.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cookie&amp;session_config.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="325">
+            <state relative-caret-position="510">
               <caret line="34" column="2" lean-forward="true" selection-start-line="34" selection-start-column="2" selection-end-line="34" selection-end-column="2" />
               <folding />
             </state>
@@ -596,7 +588,7 @@
       <workItem from="1482720503821" duration="24274000" />
       <workItem from="1482896279876" duration="68017000" />
       <workItem from="1483425175510" duration="34901000" />
-      <workItem from="1483587605749" duration="14736000" />
+      <workItem from="1483587605749" duration="15079000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1481019209704</created>
@@ -682,11 +674,18 @@
       <option name="project" value="LOCAL" />
       <updated>1483512833136</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="test">
+      <created>1483610022678</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1483610022678</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="239623000" />
+    <option name="totallyTimeSpent" value="239966000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -699,12 +698,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="551" y="23" width="889" height="790" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20852534" sideWeight="0.48434237" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32909605" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299712" sideWeight="0.509" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32485875" sideWeight="0.49659863" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.73495704" sideWeight="0.49659863" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23210162" sideWeight="0.5156576" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32378224" sideWeight="0.491" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24784854" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1248,7 +1247,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cookie&amp;session_config.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
+        <state relative-caret-position="510">
           <caret line="34" column="2" lean-forward="true" selection-start-line="34" selection-start-column="2" selection-end-line="34" selection-end-column="2" />
           <folding />
         </state>
