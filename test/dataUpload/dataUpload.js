@@ -21,6 +21,7 @@ function onRequest(req, res) {
         });
         req.on('end', function () {
             req.rawBody = Buffer.concat(bufs).toString();
+            req.bufs = bufs;
             handle(req, res);
         })
     } else {
@@ -85,7 +86,7 @@ function handle(req, res) {
         //     res.writeHeader(200, 'OK');
         //     res.end(end);
         // })
-        fileUploadParse(req.rawBody, './test/dataUpload/', function () {
+        fileUploadParse(req.rawBody, Buffer.concat(req.bufs), './test/dataUpload/file/', function () {
 
         })
     }
@@ -95,24 +96,33 @@ var hasBody = function(req) {
     return 'transfer-encoding' in req.headers || 'content-length' in req.headers;
 };
 
-var fileUploadParse = function (str, filepath, cb) {
+var fileUploadParse = function (utf8str, buffer, filePath, cb) {
+
     //获取模块分割字符串
     var expModule = /^([^\r\n]+)\r\n/;
-    var header = expModule.exec(str);
+    var header = expModule.exec(utf8str);
+
     //分割模块
     var sp = '\r\n' + header[1] + '--';
-    if (str.indexOf(sp) > -1) {
-        str = str.replace(sp, '');//去除尾部
+    if (utf8str.indexOf(sp) > -1) {
+        utf8str = utf8str.replace(sp, '');//去除尾部
+        buffer = buffer.slice(0,buffer.length - (new Buffer(sp)).length);
     }
-    var resArr = str.split(header[0]);//分割数组
-    resArr.shift();//去除头部
+    var strArr = utf8str.split(header[0]);//分割数组
+    var bufIndexs = getArrSame(buffer,new Buffer(header[0]));
+    bufIndexs.push([buffer.length - 1]);
+    strArr.shift();//去除头部
 
-    //分割头与体
     var bodyArr = [];
-    resArr.forEach(function (str) {
+
+    new syncEach(strArr, function (str, i) {
+        var self = this;
+
+        //分割头与体
         var arr = /^([\w\W]+?)\r\n\r\n([\w\W]+)$/.exec(str);
         var head = arr[1];
         var body = arr[2];
+        var headLen = head.length;
 
         body.length -= 2;
 
@@ -121,28 +131,108 @@ var fileUploadParse = function (str, filepath, cb) {
         if (head.indexOf('Content-Type') > -1) {
             file = true;
         }
+
+        //头部转化为obj
         head = head.replace(/Content-Type: ([^\r\n]+)($|\r\n)/,'')
             .replace(/\r\n/g, '')
             .replace(/\s+/g, '')
             .replace('Content-Disposition:form-data;', '')
-            .replace(/\"/g,'');
+            .replace(/"/g,'');
         head = querystring.parse(head, ';', '=');
 
         //file处理
         if (file) {
-            body = new Buffer(body);
-            fileMod.saveFile(body, filepath + head.filename, 'utf-8',function () {
+            var buf = buffer.slice(bufIndexs[i][1] + headLen + 4,bufIndexs[i+1][0] - 2);
+            fileMod.saveFile(buf, filePath + head.filename, 'utf-8',function () {
                 bodyArr.push({
                     head: head,
-                    body: filepath + head.filename
+                    body: filePath + head.filename
                 });
+                self.next();
             });
         } else {
             bodyArr.push({
                 head: head,
                 body: body
             });
+            this.next();
         }
     });
     cb && cb(bodyArr);
+};
+
+var bufIndex = function (buf, indexBuf) {
+    var newBuf = new Buffer(buf.length);
+    buf.copy(newBuf,0,0,buf.length);
+    return dels(buf,indexBuf,[]);
+};
+
+function getArrSame (arr1, arr2) {
+    var arrIndex = [];
+    var arr2Len = arr2.length;
+    for (var i = 0,len = arr1.length - arr2Len; i < len;) {
+        if (isSame(arr1.slice(i,i+arr2Len), arr2)) {
+            arrIndex.push([i,i+arr2Len]);
+            i += arr2Len;
+        } else {
+            i++;
+        }
+    }
+    return arrIndex;
+}
+
+function isSame (arr1,arr2){
+    if (arr1.length !== arr2.length) return false;
+    for(var i = 0,len = arr1.length; i < len; i++) {
+        if (arr1[i] !== arr2[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function dels (buf, del, arr) {
+    var index = buf.indexOf(del);
+    if (index > -1) {
+        arr.push([index,index + del.length]);
+        return dels(buf,del,arr);
+    } else {
+        return arr;
+    }
+}
+
+var concatBufArrayToBuf = function (bufArr, start, len) {
+    var i = 0,
+        j = 0,
+        s = 0,
+        e = 0,
+        end = start + len - 1,
+        newBufArr = [],
+        buf0I = 0,
+        buf1I = 0;
+
+    bufArr.some(function (buf, index) {
+        e = s + buf.length - 1;
+        if (start <= e) {
+            if (end > e) {
+
+            } else {
+                newBufArr.push(buf.slice());
+            }
+        }
+    });
+};
+
+var syncEach = function(array, func){
+    this.array = array;
+    this.func = func;
+    this.i = 0;
+    this.func(this.array[0], 0);
+};
+
+syncEach.prototype.next = function (){
+    this.i++;
+    if (this.i < this.array.length) {
+        this.func(this.array[this.i], this.i, this.array);
+    }
 };

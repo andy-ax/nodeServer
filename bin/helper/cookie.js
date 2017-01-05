@@ -27,15 +27,15 @@ Cookie.prototype.setCookie = function () {
     }
 };
 
+//检查cookie
 /**
  *
  * @param {string} key
  * @param {function} resolve
  * @param {function} reject
  */
-//检查cookie
 Cookie.prototype.checkCookie = function (key, resolve, reject) {
-    var result = getCookie(key);
+    var result = !!this.req.cookie[key];
 
     if (result) {
         resolve && resolve(this);
@@ -57,6 +57,10 @@ Cookie.prototype.checkAllCookie = function () {
 //cookie 辅助函数
 
 //option设置
+/**
+ *
+ * @param {object} opt
+ */
 Cookie.setOption = function (opt) {
     option = opt;
 };
@@ -110,12 +114,6 @@ Cookie.buildCookie = function (name, val, opt) {
 };
 
 //模块内部使用函数
-
-/**
- *
- * @param key
- * @return {boolean}
- */
 function getCookie (key) {
     return !!cookies[key];
 }
@@ -126,4 +124,5 @@ function extend (source, destination) {
     }
     return destination;
 }
+
 exports.Cookie = Cookie;
