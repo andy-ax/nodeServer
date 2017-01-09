@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fd189aa8-4129-470d-8034-5e3c06b66de3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/watcherTasks.xml" afterPath="$PROJECT_DIR$/.idea/watcherTasks.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/crawler/crawler.js" afterPath="$PROJECT_DIR$/test/crawler/crawler.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/mongodb/mongos.js" afterPath="$PROJECT_DIR$/test/mongodb/mongos.js" />
     </list>
     <ignored path="nodeServer.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,16 +34,6 @@
               <folding>
                 <element signature="e#184#1688#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="zhiHuHot.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/crawler/file/zhiHuHot.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="10935">
-              <caret line="0" column="38423" lean-forward="false" selection-start-line="0" selection-start-column="38423" selection-end-line="0" selection-end-column="38423" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -541,7 +528,7 @@
       <workItem from="1483425175510" duration="34901000" />
       <workItem from="1483587605749" duration="22575000" />
       <workItem from="1483679374509" duration="13439000" />
-      <workItem from="1483928514292" duration="10829000" />
+      <workItem from="1483928514292" duration="10883000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1481019209704</created>
@@ -662,11 +649,18 @@
       <option name="project" value="LOCAL" />
       <updated>1483670284742</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="test">
+      <created>1483958037344</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1483958037344</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="271730000" />
+    <option name="totallyTimeSpent" value="271784000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -872,13 +866,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/public/font/icomoon.svg">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="48" lean-forward="false" selection-start-line="1" selection-start-column="48" selection-end-line="1" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/stylesheets/components.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1196,14 +1183,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/crawler/file/zhiHuHot.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="10935">
-          <caret line="0" column="38423" lean-forward="false" selection-start-line="0" selection-start-column="38423" selection-end-line="0" selection-end-column="38423" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/mongodb/lib/collection.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="276">
@@ -1224,6 +1203,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="137">
           <caret line="243" column="13" lean-forward="false" selection-start-line="243" selection-start-column="13" selection-end-line="243" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/crawler/file/zhiHuHot.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4605">
+          <caret line="0" column="38423" lean-forward="false" selection-start-line="0" selection-start-column="38423" selection-end-line="0" selection-end-column="38423" />
           <folding />
         </state>
       </provider>
