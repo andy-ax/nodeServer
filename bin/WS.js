@@ -1,5 +1,5 @@
 // 需要HTTP 模块来启动服务器和Socket.IO
-var http= require('http'), io= require('socket.io');
+var http = require('http'), io= require('socket.io');
 
 // 在8080端口启动服务器
 var server= http.createServer(function(req, res){
