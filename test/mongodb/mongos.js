@@ -80,6 +80,20 @@ var init2 = function () {
             next();
         })
     }
+    /*
+     * mongodb数据查找
+     * model.find([查询索引], [回调])
+     * model.findOne([查询索引], [回调])
+     */
+    /*
+     * 查询排序result.sort([排序索引],[1|-1]).exec([callback]);
+     * 1->正序 -1->倒序
+     */
+    /*
+     * 查询部分结果
+     * .skip(查询的数据数量) 查询一部分数据
+     * .limit(一页数据的数量) 数据分页
+     */
 };
 
 init2();
