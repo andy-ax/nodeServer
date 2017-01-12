@@ -21,32 +21,33 @@ var init = function () {
     }, function (self) {
         self.cookie.push(cookieMod.buildCookie('isVisit',1));
     });
-    cookieMod.cookieConfig('s_id', function (self) {
-        sessionMod.checkSession(self.req.cookie['s_id'],function (session) {
-            self.cookie.push(cookieMod.buildCookie('s_id',session.s_id,{
-                maxAge:session.cookie.expire
-            }));
-        }, function () {
-            sessionSet(self);
-        });
-    },function (self) {
-        sessionSet(self);
-    });
+    // cookieMod.cookieConfig('s_id', function (self) {
+    //     //session已存在 ? session 未超时且正确 ? 更新超时时间 : 重新生成session : 重新生成session
+    //     sessionMod.checkSession(self.req.cookie['s_id'],function (session) {
+    //         self.cookie.push(cookieMod.buildCookie('s_id',session.s_id,{
+    //             maxAge:session.cookie.expire
+    //         }));
+    //     }, function () {
+    //         sessionSet(self);
+    //     });
+    // },function (self) {
+    //     sessionSet(self);
+    // });
 };
 
-function sessionSet(self) {
-    var user = self['user'];
-    if (user && cache[user]) {
-        var session_obj = sessionMod.generateSession();
-        self.cookie.push(cookieMod.buildCookie(
-            's_id',
-            session_obj.s_id,
-            {
-                maxAge:session_obj.cookie.expire
-            }
-        ));
-        session_obj.user = user;
-    }
-}
+// function sessionSet(self) {
+//     var user = self['user'];
+//     if (user && cache[user]) {
+//         var session_obj = sessionMod.generateSession();
+//         self.cookie.push(cookieMod.buildCookie(
+//             's_id',
+//             session_obj.s_id,
+//             {
+//                 maxAge:session_obj.cookie.expire
+//             }
+//         ));
+//         session_obj.user = user;
+//     }
+// }
 
 exports.config = init;

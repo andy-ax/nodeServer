@@ -1,5 +1,12 @@
 var cacheMod = require("./bin/helper/cache.js");
-var cache = {};
+var mongo = require("./bin/helper/mongodb");
+
+mongo.setUrl('localhost');
+var Users = mongo.createMongoModel({
+    name: String,
+    password: String,
+    user_id: String
+},'users');
 
 var init = function () {
     //cache 超时设置
@@ -7,4 +14,4 @@ var init = function () {
 };
 
 exports.cacheConfig = init;
-exports.cache = cache;
+exports.Users = Users;

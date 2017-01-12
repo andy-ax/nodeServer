@@ -3,7 +3,21 @@ var sessions = {};
 
 var EXPIRES = 20 * 60 * 1000;
 
+/*
+ * session -> {
+ *     s_id: string,
+ *     cookie: {
+ *         expire: Date,
+ *         user: String
+ *     }
+ * }
+ */
+
 //设定超时时间
+/**
+ *
+ * @param {number} expires
+ */
 var configExpires = function (expires) {
     if (typeof expires === 'number') {
         EXPIRES = expires;
@@ -13,6 +27,10 @@ var configExpires = function (expires) {
 };
 
 //生成session
+/**
+ *
+ * @return {{s_id: *, cookie: {expire: *}}}
+ */
 var generateSession = function () {
     var newSession = {
         //生成唯一id
