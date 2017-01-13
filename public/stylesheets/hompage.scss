@@ -70,3 +70,13 @@
     @extend %footer-text;
   }
 }
+
+#login{
+  @extend %login;
+  .dark-back{
+    @extend %dark-back;
+  }
+  .float-window {
+    @extend %float-window;
+  }
+}

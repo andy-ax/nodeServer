@@ -14,7 +14,7 @@
         </div>
         <div class="h-r-sidebar">
             <span class="text">Welcome</span>
-            <a href="javascript:" class="text" id="jsLogin">login</a>
+            <a href="javascript:" class="text" id="jsLogShow">login</a>
             <a href="javascript:" class="text">my room</a>
         </div>
     </div>
@@ -67,6 +67,49 @@
     <div class="dark-back"></div>
     <div class="float-window">
         <!--注册，登录-->
+        <div class="tab-content">
+            <div class="login">
+                <form id="jsLogin">
+                    <div>
+                        <label>
+                            <span>用户名</span><input type="text" id="jsLogName" />
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <span>密码</span><input type="text" id="jsLogPassword" />
+                        </label>
+                    </div>
+                    <div>
+                        <span id="jsLogMsg"></span>
+                        <input type="submit" id="jsLogSubmit" />
+                    </div>
+                </form>
+            </div>
+            <div class="register">
+                <form id="jsRegister">
+                    <div>
+                        <label>
+                            <span>用户名</span><input type="text" id="jsRegName" />
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <span>密码</span><input type="text" id="jsRegPassword" />
+                        </label>
+                    </div>
+                    <div>
+                        <span id="jsRegMsg"></span>
+                        <input type="submit" id="jsRegSubmit" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="tab-bar">
+            <div class="login"><span>登录</span></div>
+            <div class="register"><span>注册</span></div>
+            <div class="slider"></div>
+        </div>
     </div>
 </div>
 <script>
