@@ -31,10 +31,11 @@ var configExpires = function (expires) {
  *
  * @return {{s_id: *, cookie: {expire: *}}}
  */
-var generateSession = function () {
+var generateSession = function (user) {
     var newSession = {
         //生成唯一id
         s_id: generateSId(),
+        user: user,
         cookie: {
             //设置cookie超时时间
             expire: setExpiresTime()
