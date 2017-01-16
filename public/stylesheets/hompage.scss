@@ -72,11 +72,33 @@
 }
 
 #login{
-  @extend %login;
+  @extend %login-main;
+
   .dark-back{
     @extend %dark-back;
   }
-  .float-window {
+  .float-window{
     @extend %float-window;
+
+    .tab-content{
+      @extend %tab-content;
+
+      .login, .register {
+        @extend %log-div;
+
+        .submit{
+          @extend %submit;
+        }
+      }
+      .login{
+        @extend %login;
+      }
+      .register{
+        @extend %register;
+      }
+    }
+    .tab-bar{
+      @extend %tab-bar;
+    }
   }
 }

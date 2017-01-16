@@ -146,8 +146,8 @@
 }
 
 //login
-%login{
-  position: static;
+%login-main{
+  position: fixed;
   left: 0;
   top: 0;
 
@@ -159,17 +159,166 @@
   width: 350px;
   height: 280px;
 
-  margin: auto;
   border-radius: 20px;
 
   background: #333333;
   opacity: 0.8;
+
+  position: absolute;
+  left: 200px;
+  top: 200px;
+
+  overflow: hidden;
+
+  p, span {
+    color: #cccccc;
+    font-size: 20rem;
+  }
 }
 %tab-bar{
   height: 40px;
-  width: 100%;
+  width: 80%;
+
+  padding: 0 10%;
+
+  position: absolute;
+  bottom: 0;
+
+  background: #ccc;
+
+  div{
+    display: inline-block;
+    padding: 0 5%;
+
+    width: 20%;
+
+    margin-top: 3px;
+
+    transition: all 0.5s;
+
+    a{
+      color: #222222;
+      line-height: 37px;
+      text-align: center;
+
+      display: inline-block;
+      width: 100%;
+    }
+  }
+  div:hover{
+    box-shadow: 0px 2px 5px #333 inset;
+  }
+
+  .active{
+    box-shadow: 0px 2px 5px #333 inset;
+  }
+
+  i{
+    width: 24%;
+    height: 3px;
+
+    background: #000;
+
+    position: absolute;
+    left: 0;
+
+    transition: all 0.5s;
+  }
 }
 %tab-content{
-  height: 240px;
+  height: 239px;
   width: 100%;
+  border-bottom: #000 1px solid;
+  position: relative;
+}
+%log-form{
+  width: 100%;
+  height: 100%;
+}
+%log-div{
+  margin-top: 20px;
+  width: 100%;
+  label{
+    display: block;
+
+    width: 80%;
+    height: 100%;
+    margin: 0 10%;
+    * {
+      display: inline-block;
+    }
+    span{
+      width: 30%;
+      line-height: 79px;
+    }
+    input{
+      width: 69%;
+      height: 30px;
+
+      background: #000;
+
+      color: #ccc;
+      font-size: 16rem;
+      text-indent: 10px;
+
+      border: 1px solid #ccc;
+      border-radius: 25px;
+
+      outline: 0;
+      box-shadow: 0px 0px 5px #ccc inset;
+
+      margin: 23px 0;
+
+      vertical-align: top;
+    }
+    input:focus{
+      box-shadow: 0px 0px 15px #fff inset;
+    }
+  }
+}
+
+%submit{
+  width: 80%;
+  height: 60px;
+
+  margin: 0 10%;
+
+  position: relative;
+
+  span{
+    line-height: 36px;
+    font-size: 14rem;
+  }
+  button{
+    width: 100px;
+    height: 40px;
+
+    position: absolute;
+    right: 0;
+
+    background: linear-gradient(to bottom,#222,#000);
+
+    border: 1px solid #111;
+    border-radius: 10px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.05), inset 0 1px 1px rgba(255,255,255,.15);
+    outline: 0;
+
+    color: #fff;
+    font-size: 18rem;
+    text-shadow: 0 1px 1px rgba(0,0,0,.12);
+  }
+  button:active{
+    border-color: #181818;
+    //box-shadow: 0 1px 0 rgba(255,255,255,.06), inset 0 1px 2px rgba(0,0,0,.2);
+    background: linear-gradient(#000 0%,#222 100%);
+  }
+}
+
+%login{
+  position: absolute;
+  left: 0;
+}
+%register{
+  position: absolute;
+  left: 100%;
 }
