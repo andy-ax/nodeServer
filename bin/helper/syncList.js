@@ -16,7 +16,7 @@ SyncList.prototype.push = function (sync,args) {
         this._args = this._args.concat([].slice.call(args));
     } else {
         //普通参数形式
-        let args = [].slice.call(arguments);
+        var args = [].slice.call(arguments);
         args.shift();
 
         this._length++;

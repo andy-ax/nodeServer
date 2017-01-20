@@ -72,7 +72,7 @@ var getRoute = function () {
     });
     //读取js
     routeMod.get('/js/:js', function (req, res, js) {
-        fileMod.readFile('./public/javascript/' + js, function (file) {
+        fileMod.readFile('./public/javascripts/' + js, function (file) {
             res.writeHeader(200, 'OK');
             res.end(file);
         },function (err) {
@@ -181,7 +181,7 @@ var getRoute = function () {
                 res.setHeader('content-type', 'application/json');
                 res.writeHeader(200, 'OK');
                 //返回u_info json
-                let info = JSON.stringify(req.u_info ? req.u_info : {info:'用户名或密码错误'});
+                var info = JSON.stringify(req.u_info ? req.u_info : {info:'用户名或密码错误'});
                 res.end(info);
             })
             .start();
@@ -246,18 +246,18 @@ var postRoute = function () {
             res.setHeader('content-type', 'application/json');
             res.writeHeader(200, 'OK');
             //返回u_info json
-            let info = JSON.stringify({info:'用户名或密码不符合规范'});
+            var info = JSON.stringify({info:'用户名或密码不符合规范'});
             res.end(info);
         }
         function success() {
             res.setHeader('content-type', 'application/json');
             res.writeHeader(200, 'OK');
             //返回u_info json
-            let info = JSON.stringify({info:'注册成功'});
+            var info = JSON.stringify({info:'注册成功'});
             res.end(info);
         }
         function checkPassword(password) {
-            let exp = /^([a-zA-Z1-9_]){6,12}$/g;
+            var exp = /^([a-zA-Z1-9_]){6,12}$/g;
             return !!exp.exec(password);
         }
     });

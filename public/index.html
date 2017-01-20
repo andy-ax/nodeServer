@@ -5,6 +5,7 @@
     <title>Title</title>
     <link rel="stylesheet" href="./css/framework.css">
     <link rel="stylesheet" href="./css/hompage.css">
+    <script src="./js/jquery.js"></script>
 </head>
 <body>
 <header id="header">
@@ -64,12 +65,12 @@
     </div>
 </footer>
 <div id="login">
-    <div class="dark-back"></div>
-    <div class="float-window">
+    <div class="dark-back" id="jsBack"></div>
+    <div class="float-window" id="jsFloatWindow">
         <!--注册，登录-->
         <div class="tab-content">
-            <div class="login">
-                <form id="jsLogin">
+            <div class="login" id="jsLogin">
+                <form id="jsALogin">
                     <div>
                         <label>
                             <span>用户名</span><input type="text" id="jsLogName" />
@@ -86,8 +87,8 @@
                     </div>
                 </form>
             </div>
-            <div class="register">
-                <form id="jsRegister">
+            <div class="register" id="jsRegister">
+                <form id="jsARegister">
                     <div>
                         <label>
                             <span>用户名</span><input type="text" value="" id="jsRegName" />
@@ -106,12 +107,11 @@
             </div>
         </div>
         <div class="tab-bar">
-            <div class="active"><a href="javascript:">登录</a></div>
-            <div><a href="javascript:">注册</a></div><i></i>
+            <div class="active" id="jsLoginTag"><a href="javascript:">登录</a></div>
+            <div class="" id="jsRegisterTag"><a href="javascript:">注册</a></div><i id="jsSlider"></i>
         </div>
     </div>
 </div>
-<script>
-</script>
+<script src="./js/homepage.js"></script>
 </body>
 </html>
