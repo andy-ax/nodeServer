@@ -1,53 +1,70 @@
 function SyncList() {
-    this.sync = [];
-    this._args = [];
+    // this.sync = [];
+    // this._args = [];
+    // this._scope = [];
+    this.queue = [];
     this._start = false;
     this._length = 0;
     this._alreadyLength = 0;
 }
 
-SyncList.prototype.push = function (sync,args) {
+SyncList.prototype.push = function (sync,scope,args) {
     //将cb推入队列
     if (sync instanceof Array) {
         //数组形式
         this._length += sync.length;
 
-        this.sync = this.sync.concat([].slice.call(sync));
-        this._args = this._args.concat([].slice.call(args));
+        sync.forEach(function (val, i) {
+            this.queue.push({
+                sync: sync[i],
+                args: args[i],
+                scope: scope[i]
+            });
+        },this);
     } else {
         //普通参数形式
-        var args = [].slice.call(arguments);
-        args.shift();
+        var _args = [].slice.call(arguments);
+        _args.shift();
+        _args.shift();
 
         this._length++;
 
-        this.sync.push(sync);
-        this._args.push(args);
+        _args = _args || [];
+        scope = scope || null;
+
+        this.queue.push({
+            sync: sync,
+            args: _args,
+            scope: scope
+        });
     }
 
     var len = sync instanceof Array ? sync.length : 1;
 
-    if (this.sync.length === len //在加入前所有队列cb已执行完毕或是第一次加入
+    if (this.queue.length === len //在加入前所有队列cb已执行完毕或是第一次加入
         && this._start //判断是否在执行
         && this._length === this._alreadyLength + len//判断前一个函数是否执行完毕
     ) {
         //执行队列的第一个cb
-        var cb = this.sync.shift();
+        var obj = this.queue.shift();
+        var cb = obj.sync;
 
-        var arg = [].concat(this._args.shift());
-        cb.apply(this,arg);
+        var arg = [].concat(obj.args.shift());
+        cb.apply(obj.scope,arg);
     }
     return this;
 };
 
 SyncList.prototype.start = function () {
     this._start = true;
-    if (this.sync.length > 0) {
+    if (this.queue.length > 0) {
         //执行队列的第一个cb
-        var sync = this.sync.shift();
+        var obj = this.queue.shift(),
+            cb = obj.sync,
+            scope = obj.scope,
+            args = obj.args;
 
-        var arg = [].concat(this._args.shift());
-        sync.apply(this,arg);
+        cb.apply(scope,args);
     }
     return this;
 };
@@ -60,11 +77,13 @@ SyncList.prototype.end = function () {
 SyncList.prototype.next = function () {
     this._alreadyLength++;
     if (this._alreadyLength > this._length) throw new Error('在一个异步函数中调用了多次next');
-    if (this.sync.length > 0 && this._start) {
-        var sync = this.sync.shift();
+    if (this.queue.length > 0 && this._start) {
+        var obj = this.queue.shift(),
+            cb = obj.sync,
+            scope = obj.scope,
+            args = obj.args;
 
-        var arg = [].concat(this._args.shift());
-        sync.apply(this,arg);
+        cb.apply(scope,args);
     }
     return this;
 };

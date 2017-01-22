@@ -35,9 +35,7 @@ Cookie.prototype.setCookie = function () {
  * @param {function} [reject]
  */
 Cookie.prototype.checkCookie = function (key, resolve, reject) {
-    var result = !!this.req.cookie[key];
-
-    if (result) {
+    if (this.req.cookie[' ' + key] !== undefined) {
         resolve && resolve(this);
     } else {
         reject && reject(this)

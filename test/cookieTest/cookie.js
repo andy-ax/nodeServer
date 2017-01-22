@@ -4,8 +4,8 @@ var parseMod = require('../../bin/helper/parse').parse;
 
 var onRequest = function(req, res) {
     var cookie = parseCookie(req.headers.cookie);
-    if (!cookie.isVisit3) {
-        res.setHeader('Set-Cookie', serialize('isVisit3', '1', {
+    if (!cookie['f']) {
+        res.setHeader('Set-Cookie', serialize('f', '1', {
             maxAge: 60 * 60 * 24 * 30,//cookie保存时长
             domain: 'localhost',
             path: '/',//路径，子路径都可以得到该cookie

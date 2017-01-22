@@ -19,11 +19,12 @@ var Upload = function (req, res) {
  */
 Upload.prototype.getBody = function (cb) {
     var bufs = [];
+    var self = this;
     this.req.on('data', function (chunk) {
         bufs.push(chunk);
     }).on('end', function () {
-        this.rawBody = Buffer.concat(bufs).toString();
-        this.bufs = bufs;
+        self.rawBody = Buffer.concat(bufs).toString();
+        self.bufs = bufs;
         cb && cb();
     });
 };

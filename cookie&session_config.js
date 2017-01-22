@@ -6,9 +6,9 @@ var init = function () {
     //cookie配置
     cookieMod.setOption({
         maxAge: 1000 * 60 * 60 * 24 * 30,//cookie保存时长
-        domain: '127.0.0.1',
+        domain: 'localhost',
         path: '/',//路径，子路径都可以得到该cookie
-        httpOnly: false//只在http下保存cookie
+        httpOnly: true//只在http下保存cookie
     });
 
     //session expires配置
