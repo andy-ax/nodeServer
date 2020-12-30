@@ -8,8 +8,8 @@ var cookies = {};
 //所有要处理的数据都会挂载在Cookie实例上
 /**
  *
- * @param {IncomingMessage} req
- * @param {ServerResponse} res
+ * @param {Object} req
+ * @param {Object} res
  * @constructor
  */
 var Cookie = function (req, res) {
@@ -27,59 +27,57 @@ Cookie.prototype.setCookie = function () {
     }
 };
 
-//检查cookie
 /**
- *
+ * 检查设定的cookie是否存在
  * @param {string} key
- * @param {function} resolve
- * @param {function} [reject]
+ * @param {function} success
+ * @param {function} [fail]
  */
-Cookie.prototype.checkCookie = function (key, resolve, reject) {
-    if (this.req.cookie[' ' + key] !== undefined) {
-        resolve && resolve(this);
+Cookie.prototype.checkCookie = function (key, success, fail) {
+    if (this.req.cookie[key] !== undefined) {
+        success && success(this);
     } else {
-        reject && reject(this)
+        fail && fail(this)
     }
 };
 
-//检查全部 cookie
+/**
+ * 检查全部 cookie
+ */
 Cookie.prototype.checkAllCookie = function () {
-    var resolve,reject;
+    var success,fail;
     for (var i in cookies) {
-        resolve = cookies[i].resolve;
-        reject = cookies[i].reject;
-        this.checkCookie(i,resolve,reject);
+        success = cookies[i].success;
+        fail = cookies[i].fail;
+        this.checkCookie(i,success,fail);
     }
 };
 
 //cookie 辅助函数
 
-//option设置
 /**
- *
+ * option设置
  * @param {object} opt
  */
 Cookie.setOption = function (opt) {
     option = opt;
 };
 
-//存储已配置的cookie
 /**
- *
+ * 存储已配置的cookie
  * @param {string} key
- * @param {function} resolve
- * @param {function} reject
+ * @param {function} success
+ * @param {function} fail
  */
-Cookie.cookieConfig = function (key, resolve, reject) {
+Cookie.cookieConfig = function (key, success, fail) {
     cookies[key] = {
-        resolve: resolve,
-        reject: reject
+        success,
+        fail
     };
 };
 
-//将cookie切成对象
 /**
- *
+ * 将cookie切成对象
  * @param {string} cookie
  * @return {object}
  */
@@ -87,9 +85,8 @@ Cookie.parseCookie = function (cookie) {
     return queryString.parse(cookie, ';', '=');
 };
 
-//创建cookie
 /**
- *
+ * 创建cookie
  * @param {string} name
  * @param  val
  * @param {object} [opt]

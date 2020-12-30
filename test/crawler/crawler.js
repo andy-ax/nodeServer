@@ -32,10 +32,36 @@ https.get(url, function (res) {
                 }
             }
         };
+        var htmlConfig = {
+            anchor: {
+                el: 'div',
+                child: 'h2'
+            },
+            tabPanel: {
+                el: 'ul',
+            },
+            feedItem: {
+                el: 'li',
+                child: 'div'
+            },
+            jsVoteCount: {
+                el: 'h4'
+            },
+            jsToggleCommentBox: {
+                el: 'p'
+            },
+            authorLinkLine: {
+                el: 'h4'
+            },
+            content: {
+                el: 'div'
+            }
+
+        };
         var text = getText(config,str);
         analyzeEnd();
-
-        saveFile2Json(text,'./test/crawler/file/zhiHuHot','utf-8',function () {
+        var date = new Date();
+        saveFile2Json(text,'./test/crawler/file/zhiHuHot'+date.getYear()+date.getMonth()+date.getDay(),'utf-8',function () {
             saveEnd();
         },function () {
             saveErr();
@@ -94,11 +120,38 @@ function deepLoad(obj, fatherObj, father) {
     }
 }
 
-function obj2Html(obj, config) {
+function obj2Html(obj, config, el , father) {
+    for (var i in obj) {
+        var dom = config[i];
+        var item = obj[i];
+        if (item instanceof Array) {
+            var newEl = '<' + dom.el + 'class="' + i + '"></' + dom.el + '>';
+            father.append(newEl);
+            // strE = '</' + dom.el + '>' + strE;
+            for (var j = 0; j < item.length; j++) {
 
+            }
+        } else
+        if (item instanceof Object) {
+
+        } else
+        {
+
+        }
+    }
 }
 
-function saveFile2Json(path, obj, encode, resolve, reject) {
+function editJson(string) {
+    return string
+        .replace(/\{/g,'{\n')
+        .replace(/\}/g,'\n}')
+        .replace(/\[/g,'{\n')
+        .replace(/\]/g,'\n}')
+        .replace(/\,/g,',\n')
+}
+
+function saveFile2Json(obj, path, encode, resolve, reject) {
+    // var str = editJson(JSON.stringify(obj));
     file.saveFile(JSON.stringify(obj), path + '.json', encode, resolve, reject);
 }
 

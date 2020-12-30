@@ -22,7 +22,7 @@ var configExpires = function (expires) {
 };
 
 /**
- *
+ * 客户端的文件请求，判断客户端的文件时间戳是否与服务器端的文件时间戳一样
  * @param {string} path
  * @param {ClientRequest} req
  * @param {ServerResponse} res

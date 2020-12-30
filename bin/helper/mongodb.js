@@ -22,6 +22,7 @@ var setUrl = function (config) {
     } else {
         dbURL = 'mongodb://' + config.username + ':' + config.password + '@' + config.hostname + ':' + config.port + '/database'
     }
+    console.log(dbURL);
     mongoose.connect(dbURL);
 };
 

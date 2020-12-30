@@ -8,8 +8,8 @@
 var fs = require("fs");
 var out = require("readline");//标准输入输出
 
-var sourcePath = '../../public/images/v2-e8255eac37485f3354cef0a0c5d72b68_b.jpg';
-var writePath = '../../public/images/writestream.jpg';
+var sourcePath = './public/images/v2-e8255eac37485f3354cef0a0c5d72b68_b.jpg';
+var writePath = './public/images/writestream.jpg';
 
 var init1 = function () {
     //stream
@@ -17,6 +17,7 @@ var init1 = function () {
     var writeStream = fs.createWriteStream(writePath);
 
     readStream.on('data', function(chunk) { // 当有数据流出时，写入数据 每68kb触发一次
+        console.log(chunk);
         if (writeStream.write(chunk) === false) { // 如果没有写完，暂停读取流
             readStream.pause();
         }
@@ -33,7 +34,6 @@ var init1 = function () {
     //pipe自动调用了data,end等事件
     // fs.createReadStream(sourcePath).pipe(fs.createWriteStream(writePath));
 };
-
 var init2 = function () {
     var readStream = fs.createReadStream('/Users/andy/Downloads/dmg&zip/PhpStorm-2016.3.dmg');
     var writeStream = fs.createWriteStream('../../public/images/phpStorm.dmg');
@@ -171,4 +171,23 @@ var init3 = function () {
         fs.unlink(path);
     });
 };
-init3();
+
+var readStream = function () {
+    var sourcePath = './test/fileSystem/text.txt';
+    var read = fs.createReadStream(sourcePath);
+    read.setEncoding('UTF8');
+    let data = '';
+    read.on('data',chunk=>{
+        data+=chunk;
+    });
+    read.on('end',()=>{
+        console.log(data);
+    })
+};
+var writeStream = function () {
+    const text = '你好~';
+    const path = './test/fileSystem/write.txt';
+    var write = fs.createWriteStream(path);
+    write.write(text);
+};
+writeStream();

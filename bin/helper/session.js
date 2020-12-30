@@ -13,9 +13,8 @@ var EXPIRES = 20 * 60 * 1000;
  * }
  */
 
-//设定超时时间
 /**
- *
+ * 设定超时时间
  * @param {number} expires
  */
 var configExpires = function (expires) {
@@ -26,9 +25,8 @@ var configExpires = function (expires) {
     }
 };
 
-//生成session
 /**
- *
+ * 生成session
  * @return {{s_id: *, cookie: {expire: *}}}
  */
 var generateSession = function (user) {
@@ -47,26 +45,25 @@ var generateSession = function (user) {
     return newSession;
 };
 
-//检查session
 /**
- *
+ * 检查session是否存在，并判断是否超时，如未超时则更新超时时间并成功返回
  * @param {string} s_id
- * @param {function} [resolve]
- * @param {function} [reject]
+ * @param {function} [success]
+ * @param {function} [fail]
  */
-var checkSession = function (s_id, resolve, reject) {
+var checkSession = function (s_id, success, fail) {
     var session = sessions[s_id];
     if (session) {
         var date = (new Date()).getTime();
         if (session.cookie.expire > date) {
             session.cookie.expire = date + EXPIRES;
-            resolve && resolve(session);
+            success && success(session);
         } else {
             delete sessions[s_id];
-            reject && reject();
+            fail && fail();
         }
     } else {
-        reject && reject();
+        fail && fail();
     }
 };
 

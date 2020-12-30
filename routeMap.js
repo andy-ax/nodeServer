@@ -1,9 +1,9 @@
 var routeMod = require('./bin/helper/route');
 var fileMod = require('./bin/helper/file');
 var cacheMod = require('./bin/helper/cache');
-var session = require("./bin/helper/session.js");
-var SyncList = require("./bin/helper/syncList.js").SyncList;
-var Upload = require("./bin/helper/upload.js").Upload;
+var sessionMod = require('./bin/helper/session.js');
+var SyncList = require('./bin/helper/syncList.js').SyncList;
+var Upload = require('./bin/helper/upload.js').Upload;
 var handle404 = require('./bin/helper/handel404').handle404;
 var cookieMod = require('./bin/helper/cookie').Cookie;
 var Users = require('./cache&storage').Users;
@@ -13,9 +13,9 @@ var init = function () {
     addRouteReg();
 
     getRoute();
-    postRoute();
-    deleteRoute();
-    putRoute();
+    // postRoute();
+    // deleteRoute();
+    // putRoute();
 };
 
 //TODO 修改加空格的地方 代码优化 session转数据库存储 mongoose报错
@@ -105,7 +105,7 @@ var getRoute = function () {
         var cookie = new cookieMod(req, res);
         cookie.checkCookie('s_id', function () {
             //存在s_id
-            session.checkSession(req.cookie[' s_id'], function (session) {
+            sessionMod.checkSession(req.cookie['s_id'], function (session) {
                 //校验session与user的映射
                 Users.find({name: session.user}).exec(function (err, datas) {
                     if (!err && datas.length === 1) {
@@ -123,7 +123,8 @@ var getRoute = function () {
                             res.setHeader('content-type', 'application/json');
                             res.writeHeader(200, 'OK');
                             //返回u_info json
-                            res.end(JSON.stringify(datas[0].u_info));
+                            let u_info = datas[0].u_info;
+                            res.end(JSON.stringify(u_info));
                             return;
                         }
                     }
@@ -178,7 +179,7 @@ var getRoute = function () {
                 var query = req.urlObj.query;
                 if (req.u_info) {
                     //新增session
-                    var sessions = session.generateSession(query.name);
+                    var sessions = sessionMod.generateSession(query.name);
                     //推入cookie
                     cookie.cookie.push(cookieMod.buildCookie(
                         's_id',
@@ -245,7 +246,7 @@ var postRoute = function () {
                 Users.create(req.initMod, function (err) {
                     if (!err) {
                         //新增session
-                        var session = session.generateSession(req.qs.name);
+                        var session = sessionMod.generateSession(req.qs.name);
                         //推入cookie
                         cookie.cookie.push(cookieMod.buildCookie(
                             's_id',

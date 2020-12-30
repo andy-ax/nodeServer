@@ -12,7 +12,7 @@ var cookieMod = require('./bin/helper/cookie').Cookie;
 //浏览器缓存
 //cookie session
 //客户端数据上传(表单，json，xml，file)
-//TODO 异步编程 异步控制
+//异步编程 异步控制
 //TODO 网络编程(tcp http udp ws)
 //TODO 多进程child_process cluster
 //TODO 服务端骨架 express
@@ -24,7 +24,22 @@ var cookieMod = require('./bin/helper/cookie').Cookie;
 //TODO 错误处理与调试 domain 格式化输出 writeLine
 //TODO 数据收集
 
-var process = 23000;
+var os = require('os');
+
+var interfaces = os.networkInterfaces();
+var addresses = [];
+for (var k in interfaces) {
+    for (var k2 in interfaces[k]) {
+        var address = interfaces[k][k2];
+        if (address.family === 'IPv4' && !address.internal) {
+            addresses.push(address.address);
+        }
+    }
+}
+
+console.log(addresses);
+
+var port = 23000;
 var onRequest = function(request, response) {
     //将解析后的路径 挂载 到 req.urlObj 上
     var urlObj = request.urlObj = parseMod(request.url);
@@ -33,7 +48,7 @@ var onRequest = function(request, response) {
 
     if (result) {
         //cookie解析并 挂载 到 req.cookie 上
-        request.cookie = cookieMod.parseCookie(request.headers.cookie);
+        request.cookie = cookieMod.parseCookie(request.headers.cookie.replace(/\s+/g,''));
 
         //执行
         var arg = [request,response].concat(result.args);
@@ -43,19 +58,20 @@ var onRequest = function(request, response) {
         handle404(response);
     }
 };
+
 var onConnect = function () {
     console.log('connection is success!')
 };
 
 function init () {
-    //listen process
-    http.createServer(onRequest).listen(process, onConnect);
+    //listen port
+    http.createServer(onRequest).listen(port, '127.0.0.1', onConnect);
 
-    //cookie & session config
+    // cookie & session config
     var CSConfig = require('./cookie&session_config');
     CSConfig.config();
 
-    //cache config
+    // cache config
     var cacheStorage = require('./cache&storage');
     cacheStorage.cacheConfig();
 

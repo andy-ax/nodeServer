@@ -10,12 +10,14 @@
         var msg = document.getElementById('message');
         if (WebSocket) {
 
-            var ws = new WebSocket('ws://127.0.0.1:32002');
+            var ws = new WebSocket('ws://127.0.0.1:12010');
 
             ws.onopen = function (e) {
                 console.log('连接成功');
-                ws.send('msg1');
+                ws.send('1');
+                ws.send('21');
             };
+            // ws.send('hello');
             ws.onclose = function (e) {
                 console.log('服务器关闭');
             };
@@ -23,7 +25,8 @@
                 console.log('连接错误');
             };
             ws.onmessage = function (e) {
-                msg.innerHTML = '连接成功'
+                console.log(e)
+                // msg.innerHTML = '连接成功'
             }
         }
     </script>

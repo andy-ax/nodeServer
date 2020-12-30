@@ -7,39 +7,43 @@ var FileError = require("./error.js").FileError;
 /**
  *
  * @param {string} filePath
- * @param {function} resolve
- * @param {function} [reject]
  * @return void
  */
-var readFileStream = function (filePath, resolve, reject) {
-    var readStream = fs.createReadStream(filePath);
-    readStream
-        .on('end', function () {
-            resolve && resolve();
-        })
-        .on('error', function (err) {
-            reject && reject(err);
-        });
+var readFileStream = function (filePath) {
+    return new Promise((res, rej)=>{
+        let readStream = fs.createReadStream(filePath);
+        let data = '';
+        readStream
+            .on('data', chunk=>{
+                data+=chunk;
+            })
+            .on('end', function () {
+                res && res();
+            })
+            .on('error', function (err) {
+                rej && rej(err);
+            });
+    });
 };
 
 /**
- *
+ * 读取文件
  * @param {string} filePath
- * @param {function} resolve
- * @param {function} [reject]
+ * @param {function} success
+ * @param {function} [fail]
  */
-var readFile = function (filePath, resolve, reject) {
+var readFile = function (filePath, success, fail) {
     var path = filePath;
     fs.readFile(filePath,function (err, file) {
         if (err) {
-            if (reject) {
-                reject(err);
+            if (fail) {
+                fail(err);
             } else {
                 console.log(path);
                 throw new FileError('file load failed!!!');
             }
         } else {
-            resolve && resolve(file);
+            success && success(file);
         }
     });
 };
